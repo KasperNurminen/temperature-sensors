@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Sensors</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Difference</h1>
+    <div id="difference">Loading…</div>
+
+    <h1>Summary</h1>
+    <div id="summary">Loading…</div>
+
+    <script type="text/javascript">
+        (function () {
+            var createRow = function (element, columns) {
+                var row = element.insertRow();
+                var col;
+
+                columns.forEach(function (column) {
+                    col = row.insertCell();
+                    col.textContent = column;
+                });
+            };
+
+            var getJSON = function (url, success, error) {
+                var request = new XMLHttpRequest();
+
+                request.onreadystatechange = function () {
+                    try {
+                        if (request.readyState === XMLHttpRequest.DONE) {
+                            if (request.status === 200) {
+                                console.log(JSON.parse(request.responseText))
+                                success(JSON.parse(request.responseText));
+                            } else {
+                                if (request.status === 0) {
+                                    error('Server response not received');
+                                } else {
+                                    error('There was a problem with the request: ' + request.statusText);
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        error(e);
+                    }
+                };
+
+                request.open('GET', url);
+                request.send();
+            };
+
+            var elementDifference = document.getElementById('difference');
+            var elementSummary = document.getElementById('summary');
+
+            /*
+            * Expected data representation:
+            * {"difference": -20.21}
+            */
+            getJSON('http://localhost:8080/api/diff/000D6F0003141E14', function (json) {
+                elementDifference.textContent = 'Temperature difference is ' + json.difference + '°C';
+            }, function (reason) {
+                elementDifference.textContent = reason;
+            });
+
+            /**
+             * Expected data representation:
+             * {"sensors": [
+             *   {"sensorId": "000D6F0003141E14", "count": "41141", "avgTemp": "21.27"},
+             *   {"sensorId": "000D6F000449336B", "count": "35208", "avgTemp": "21.25"},
+             *   ...
+             */
+            getJSON('http://localhost:8080/api/summary', function (json) {
+                var table = document.createElement('table');
+
+                createRow(table, ['Sensor', 'Avg. temp.', 'Count']);
+
+                json.sensors.forEach(function (sensor) {
+                    createRow(table, [sensor.sensorId, sensor.avgTemp, sensor.count]);
+                });
+
+                elementSummary.textContent = '';
+                elementSummary.appendChild(table);
+            }, function (reason) {
+                elementSummary.textContent = reason;
+            });
+
+        }());
+    </script>
+</body>
+
+</html>
