@@ -33,3 +33,5 @@ SECRET_KEY=randomstring python manage.py test
 - The instructions stated that the weather data is on the first span-element of the site. That was not true, and I had to use a class-attribute to fetch it. I do not know whether it changes over time, so I made a placeholder in case it breaks at some time.
 
 - The data is also fetched at max once a minute and otherwise cached for performance.
+
+- Currently the SECRET_KEY is in the repository. If this was a real application, this would of course be bad, but this way you can just clone & go without needing to set own secret keys.
