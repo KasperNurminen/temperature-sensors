@@ -3,7 +3,7 @@
 This application collects and aggregates data from a dummy SQLlite-file and displays them in index.html. Backend is implemented with Django, and is deployed with Docker and gunicorn.
 
 # How to run it:
-The easy way:
+The easy way (in backend-directory):
 ```
 docker-compose up -d 
 ````
