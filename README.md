@@ -12,6 +12,11 @@ Run the following commands in the backend-directory:
 ````
 You can also of course create an .env-file for the secret key.
 
+Tests can be ran with 
+```
+SECRET_KEY=randomstring python manage.py test 
+````
+
 ## Notes on backend implementation
 - The supplied SQLite file didn't, as SQLlite files often don't, have any explicit primary keys. Django does not like that, and after a bit of tinkering I conceded that I will simply use timestamps as primary keys. This is _NOT GOOD_ but I also didn't want to do a whole data migration and have Django ORM manage the primary keys. I can expand on this further, but long story short, I didn't find an easy way to implement primary keys any other way.
 
