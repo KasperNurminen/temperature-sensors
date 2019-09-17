@@ -1,8 +1,14 @@
 # Temperature sensors
 
-This application collects and aggregates data from a dummy SQLlite-file and displays them in index.html. Backend is implemented with Django.
+This application collects and aggregates data from a dummy SQLlite-file and displays them in index.html. Backend is implemented with Django, and is deployed with Docker and gunicorn.
 
 # How to run it:
+The easy way:
+```
+docker-compose up -d 
+````
+
+The hard way:
 
 Run the following commands in the backend-directory:
 ````

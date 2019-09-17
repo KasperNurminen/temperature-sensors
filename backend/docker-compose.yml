@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  backend:
+    environment:
+    - SECRET_KEY=15hDVCXBgah15QASFAF1%
+    build: .
+    command: gunicorn backend.wsgi --bind 0.0.0.0:8080
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
