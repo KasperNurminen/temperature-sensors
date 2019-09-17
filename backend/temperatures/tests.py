@@ -26,6 +26,7 @@ class CubesensorsDataTest(TestCase):
                           {'sensorId': '3', "count": 1, "avgTemp": 3.0}])
 
     def test_outside_temp_cache(self):
+        """Tests that the data is not queried from the internet too often"""
         response = DiffView.should_fetch_data(self,
                                               OutsideTemperature.objects.get(temperature=400))
         self.assertFalse(response)
